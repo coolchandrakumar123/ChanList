@@ -32,9 +32,7 @@ class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val itemDto = itemDtoList!![position]
-        // Set item image resource id.
-        // holder.getImageItem().setImageResource(itemDto.getImageId());
-        // Set item text.
+
         holder.textView.text = itemDto.name
     }
 
