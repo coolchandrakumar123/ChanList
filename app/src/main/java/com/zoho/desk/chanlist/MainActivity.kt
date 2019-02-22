@@ -8,6 +8,9 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v7.widget.helper.ItemTouchHelper
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,11 +29,15 @@ class MainActivity : AppCompatActivity() {
                 flexWrap = FlexWrap.WRAP
             }*/
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            adapter = ViewAdapter(initViewItemDtoList())
+            val viewAdapter = ViewAdapter(initViewItemDtoList())
+            adapter = viewAdapter
+            val callback = SimpleItemTouchHelperCallback(viewAdapter)
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(this)
         }
     }
 
-    private fun initViewItemDtoList(): List<ViewAdapter.ViewItem> {
+    private fun initViewItemDtoList(): ArrayList<ViewAdapter.ViewItem> {
         val ret = ArrayList<ViewAdapter.ViewItem>()
         val items = arrayOf("adadfaf", "aldkjfklajdflkadlskfklasjfklasfdklsfd", "adfadfsfdsa", "lakdjflkjadlfkjlasdflasdfjl", "lkasdlkjflaksjdflkadslfklkasjd",
             "adadfaf", "aldkjfklajdflkadlskfklasjfklasfdklsfd", "lakdjflkjadlfkjlasdflasdfjl", "adfadfsfdsa", "lkasdlkjflaksjdflkadslfklkasjd", "adfadfsfdsa", "adfadfsfdsa")
