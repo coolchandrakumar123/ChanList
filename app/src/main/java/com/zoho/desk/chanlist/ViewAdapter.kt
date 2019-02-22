@@ -11,8 +11,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
+class ViewAdapter(private val itemsList: ArrayList<ViewItem>?) : RecyclerView.Adapter<ViewAdapter.ViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -31,20 +32,31 @@ class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val itemDto = itemDtoList!![position]
-
+        val itemDto = itemsList!![position]
         holder.textView.text = itemDto.name
-        //holder.textView.layoutParams.height = getRandomIntInRange(250,75);
     }
 
-    private val mRandom = Random()
-
-    private fun getRandomIntInRange(max: Int, min: Int): Int {
-        return mRandom.nextInt(max - min + min) + min
-    }
     override fun getItemCount(): Int {
-        return itemDtoList?.size ?: 0
+        return itemsList?.size ?: 0
+    }
+
+    override fun onItemDismiss(position: Int) {
+        itemsList?.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(itemsList, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(itemsList, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -52,4 +64,5 @@ class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapt
     }
 
     data class ViewItem(var imageId: Int, var name: String)
+
 }
