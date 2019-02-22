@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import java.util.*
 
 class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapter<ViewAdapter.ViewHolder>() {
 
@@ -34,8 +35,14 @@ class ViewAdapter(private val itemDtoList: List<ViewItem>?) : RecyclerView.Adapt
         val itemDto = itemDtoList!![position]
 
         holder.textView.text = itemDto.name
+        //holder.textView.layoutParams.height = getRandomIntInRange(250,75);
     }
 
+    private val mRandom = Random()
+
+    private fun getRandomIntInRange(max: Int, min: Int): Int {
+        return mRandom.nextInt(max - min + min) + min
+    }
     override fun getItemCount(): Int {
         return itemDtoList?.size ?: 0
     }

@@ -2,6 +2,7 @@ package com.zoho.desk.chanlist
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.StaggeredGridLayoutManager
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -19,11 +20,12 @@ class MainActivity : AppCompatActivity() {
 
         flex_box_recycler_view.apply {
             //layoutManager = LinearLayoutManager(this@MainActivity)
-            layoutManager = FlexboxLayoutManager(this@MainActivity).apply {
+            /*layoutManager = FlexboxLayoutManager(this@MainActivity).apply {
                 flexDirection = FlexDirection.ROW
                 justifyContent = JustifyContent.SPACE_AROUND
                 flexWrap = FlexWrap.WRAP
-            }
+            }*/
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             adapter = ViewAdapter(initViewItemDtoList())
         }
     }
